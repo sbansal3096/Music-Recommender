@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        Recommender
+    </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../static/css/styling.css">
+
+
+</head>
+
+<body >
+        <script
+                src="https://code.jquery.com/jquery-3.3.0.js"
+                integrity="sha256-TFWSuDJt6kS+huV+vVlyV1jM3dwGdeNWqezhTxXB/X8="
+                crossorigin="anonymous">
+        </script>
+        <script src="../static/js/register.js"></script>
+        <!-- -->
+        <script type=text/javascript>
+            var s_id={{s2|safe}};
+            var s_name={{s1|safe}};
+            var obj={
+                id: s_id[0]
+            }
+            yay(s_id,s_name,obj);
+            $(function() {
+                $('#plList').bind('click', function() {
+                    $.getJSON('/a', {
+                        song_data: ''+obj.id
+                    }, function(data) {
+                        s_name=data.s1;
+                        s_id =data.s2;
+                        yay(s_id,s_name,obj);
+                    });
+                    return false;
+                });
+            });
+        </script>
+        <script type=txt/javascript>
+            var s=['a'];
+            search(s);
+            /*$(function() {
+                $("#searchBox").on("input",function(){
+                  var searchText = $(this).val();
+                  alert('a');
+                  if(searchText==""){
+                    $(".searchSuggestions").hide();
+                  }
+                  else{
+                    $(".searchSuggestions").show();
+                    $.getJSON('/b',{
+                        song_name: searchText
+                    }, function(data){    
+                            search(s);
+                            var sugArray = ['assa','ass'];
+                            var sugArrayLen = s.length();
+                            var html ="";
+                            for(var j=0; j<sugArrayLen;j++){
+                            var liId = "suggLi"+j;
+                            html+="<li id=\""+liId+"\" onclick = \"clickFunc()\">"+sugArray[j].title+"</li>";
+                            }
+                            $("#searchSuggestionsUl").html(html);
+                            $("li").css('padding','3px 10px');
+
+                    });
+                    autoSearchSuggestion(searchText);
+                  }
+                });
+            })*/
+        </script>
+        <div class="container">
+          <div class="column add-bottom">
+              <div id="mainwrap">
+         <div class="row">
+         <div class="col-sm-12 text-center title filler">
+            <a id="home" href="#"><p>Music<span style="color: #edc955">Recommender</span></p></a>
+            <!-- <div class="randomArticle"><a href="https://en.wikipedia.org/wiki/Special:Random" target="_blank"></a></div> -->
+         </div>
+         </div>
+
+         <div class="row searchRow">
+         <div class="col-sm-12 searchFieldNBtn">
+           <div>
+             <input type="text" id="searchBox" placeholder="Search Music" style="text-decoration-color: black" >
+             <button class="btn btn-default" id="searchBtn"><i class="fa fa-search" ></i></button>
+           </div>
+         </div>
+         </div>
+
+        <div class="row">
+         <div class="col-sm-12"></div>
+         <div class="col-sm-12 searchSuggestions">
+           <ul id="searchSuggestionsUl">
+           </ul>
+         </div>
+
+         <div class="row">
+            <div class="col-sm-12 searchResults text-center">
+            </div>
+         </div>
+
+        <div id="nowPlay">
+            <span class="left" id="npAction">Paused...</span>
+            <span class="right" id="npTitle"></span>
+              </div>
+                </div>
+                  <div id="audiowrap">
+                    <div id="audio0">
+                        <audio preload id="audio1" controls="controls">Your browser does not support HTML5 Audio!</audio>
+                    </div>
+                  <!--  <div id="tracks">
+                        <a id="btnPrev">&larr;</a>
+                        <a id="btnNext">&rarr;</a>
+                    </div>-->
+                </div>
+                <div id="plwrap">
+                    <ul id="plList"></ul>
+                </div>
+              </div>
+            </div>
+          <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
+<!--<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>-->
+<script src='http://api.html5media.info/1.1.8/html5media.min.js'></script>
+</body>
+</html>
