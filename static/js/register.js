@@ -119,8 +119,7 @@ function yay(counts,sname,obj) {
 //initialize plyr
   //  plyr.setup($('#audio1'), {});
     //obj.id=songid;
-function search(result)
-{
+
   $(document).ready(function(){
 
     $("#suggLi").click(function(){
@@ -210,10 +209,37 @@ function search(result)
     });
     //alert($("#searchSuggestionsUl").children().length);
     //execution of ajax call on click of search button.
+
     $("#searchBtn").on("click", function(){
       $(".searchSuggestions").hide();
       $(".title").removeClass("filler");
       var searchTitle =  $("#searchBox").val();
+      $.getJSON('/search', {
+            song_data: ''+searchTitle
+        }, function(data){
+
+            var id = data.id;
+            var sid=data.s2;
+            var sname=data.s1;
+            var wikiUrl = 'https://en.wikipedia.org/wiki/';
+            $(".searchResults").html("");
+            if(id==-1){
+              var html = "<h3 style=\"color:#fff\">Sorry, no result found.</h3>";
+              $(".searchResults").html(html);
+              $(".searchResults").show();
+            }
+            else{
+              var obj={
+                  id: id
+              }
+              yay(sid, sname, obj);
+            }
+        });
+       });
+  });
+
+
+/*
       $.ajax({
         url: 'https://en.wikipedia.org/w/api.php?',
         data: 'action=query&list=search&srsearch='+searchTitle+'&format=json&callback=?',
@@ -238,21 +264,34 @@ function search(result)
             $(".searchResults").show();
             }
           }
-          /*for(var i=0;i<searchCount;i++){
+          for(var i=0;i<searchCount;i++){
             var html ="";
             var html = "<div class=\"searchResultCss\">"+"<a href=\""+wikiUrl+vSearch[i].title+"\" target=\"_blank\"><p><strong>"+vSearch[i].title+"</strong></p></a><p>"+vSearch[i].snippet+"...</p>"+"</div>";
             $(".searchResults").append(html);
             $(".searchResults").show();
-          }*/
+          }
         },
         error: function(xhr, ajaxOption, status){
           alert(xhr.status);
         }
-      });
-    });
-  });
-
+      });*/
+   
   function autoSearchSuggestion(searchPrefix){
+      $.getJSON('/autosearch', {
+            song_data: ''+searchPrefix
+        }, function(data){
+
+          var sugArray = data.list;
+          var sugArrayLen = data.size;
+          var html ="";
+          for(var j=0; j<sugArrayLen;j++){
+            var liId = "suggLi"+j;
+            html+="<li id=\""+liId+"\" onclick = \"clickFunc()\">"+sugArray[j]+"</li>";
+            }
+          $("#searchSuggestionsUl").html(html);
+          $("li").css('padding','3px 10px');
+        });
+        /*
       $.ajax({
         url: 'https://en.wikipedia.org/w/api.php?',
         data: 'action=query&list=prefixsearch&pssearch='+searchPrefix+'&format=json&callback=?',
@@ -271,11 +310,10 @@ function search(result)
         error:function(xhr,ajaxOption,status){
           alert(xhr.status);
         }
-      });
+      });*/
   }
 
   function clickFunc(){
      alert("ggg");
      $("#searchBox").val($("#"+listId).text());
   }
-}

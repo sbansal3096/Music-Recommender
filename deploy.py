@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-from recommender import ret_name, ret_id
+from recommender import ret_name, ret_id, ret_id1
 from search import find 
 
 app = Flask(__name__)
@@ -25,6 +25,27 @@ def b():
         name=request.args.get('song_name')
         sugg_list=find(name)
         return jsonify({'sugg':sugg_list})
+
+@app.route('/autosearch',methods=['GET'])
+def c():
+    if request.method == 'GET':
+        name=request.args.get('song_data')
+        sugg_list=find(name)#['hello','hello','hello','hello','hello','hello','hello','hello','hello','hello']
+        print(sugg_list)
+        return jsonify({'list':sugg_list,'size':len(sugg_list)})
+
+@app.route('/search',methods=['GET'])
+def d():
+    if request.method == 'GET':
+        name=request.args.get('song_data')
+        sid=ret_id1(name)
+        if id != -1:
+          list1=ret_name(sid)
+          list2=ret_id(sid)
+        else:
+          list1=[]
+          list2=[]
+        return jsonify({'id':sid,'s1':list1,'s2':list2})
 
 if __name__ == '__main__':
    app.run(debug=True)
